@@ -31,6 +31,15 @@ class ArticleService {
     //article.viktighet = (article.viktighet === 'on'); //(article.viktighet === 'on' ? true : false);
     return axios.post<Article, void>('/opprett', article).then(response => response.data);
   }
+  editArticles(){
+    return axios.get<Article[]>('/edit').then(response => response.data);
+  }
+  editArticle(article: Article){
+    return axios.put<Article, void>('/endre', article).then(response => response.data);
+  }
+  deleteArticle(id: number) {
+    return axios.get<Article>('/delete').then(response => response.data);
+  }
 
 }
 export let articleService = new ArticleService();

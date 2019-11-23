@@ -12,8 +12,10 @@ export class ArticleList extends Component {
     render() {
 
         return (
-            <div className="container">
+            <div>
                 <NewsFeed/>
+            <div className="container">
+
                 <h3> {this.props.match.params.kategori} </h3>
                 <div className="content-container">
                     {this.articles.map(article => (
@@ -30,6 +32,7 @@ export class ArticleList extends Component {
                         </Row>
                     ))}
                 </div>
+            </div>
             </div>
         );
     }
@@ -48,13 +51,16 @@ export class NewsFeed extends Component {
 
     render() {
         return (
-            <Marquee>
-                    {this.articles.map(article => (
-                        <div key={article.id}>
-                            <div>{article.overskrift}</div>
-                        </div>
-                    ))}
-            </Marquee>
+                <Marquee>
+                    Siste nytt!
+                {this.articles.map(article => (
+                    <ul key={article.id}>
+                            <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
+                                    {article.overskrift}, {article.registrert_tidspunkt}
+                            </NavLink>
+                    </ul>
+                ))}
+                </Marquee>
         );
     }
 

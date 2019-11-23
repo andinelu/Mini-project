@@ -57,7 +57,7 @@ app.get("/forside", (req, res) => {
 });
 
 app.get("/live", (req: express$Request, res: express$Response) => {
-  pool.query("select id, overskrift, registrert_tidspunkt from nyhetssaker order by registrert_tidspunkt desc limit 6", (error, results) => {
+  pool.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker order by registrert_tidspunkt desc limit 6", (error, results) => {
     if (error) {
       console.error(error);
       return res.status(500);
@@ -75,7 +75,7 @@ app.get("/live", (req, res) => {
 }); */
 
 app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
-  pool.query('select overskrift, bilde, innhold from nyhetssaker where id=?', [req.params.id], (error, results: Article[]) => {
+  pool.query('select overskrift, bilde, innhold, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?', [req.params.id], (error, results: Article[]) => {
     if (error) {
       console.error(error);
       return res.status(500);
@@ -85,6 +85,49 @@ app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
     res.send(results[0]);
   });
 });
+
+app.get("/edit", (req: express$Request, res: express$Response) => {
+  pool.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker", (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    res.send(results);
+  });
+});
+
+app.get("/edit/:id", (req: express$Request, res: express$Response) => {
+  pool.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?", [req.params.id], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    res.send(results);
+  });
+});
+
+app.put('/endre', (req: express$Request, res: express$Response) => {
+  pool.query('update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?', [req.body], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    if (results.length == 0) return res.sendStatus(404); // No row found
+
+    res.send(results[0]);
+  });
+});
+/*
+app.put("/endre", (req, res) => {
+  console.log("/articles/:id: received GET request from client");
+  req.params.id = parseInt(req.params.id);
+  articleDao.updateOne(req.params.id, req.body, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+*/
+
 /*
 app.get("/nyhetssaker/:id", (req, res) => {
   console.log("/articles/:id: received GET request from client");
@@ -102,17 +145,10 @@ app.post("/opprett", (req, res) => {
     res.json(data);
   });
 });
+/*
 
-app.put("/nyhetssaker/:id", (req, res) => {
-  console.log("/articles/:id: received GET request from client");
-  req.params.id = parseInt(req.params.id);
-  articleDao.updateOne(req.params.id, req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
 
-app.delete("/nyhetssaker/:id", (req, res) => {
+app.delete("/delete", (req, res) => {
   console.log("/articles/:id: received DELETE request from client");
   req.params.id = parseInt(req.params.id);
   articledao.deleteOne(req.params.id, (status, data) => {
@@ -181,8 +217,35 @@ app.post("/kommentar/:id", (req, res) => {
       res.json(data);
     });
   });
-
-
+/*
+app.delete("/delete", (req, res) => {
+  console.log("Fikk POST-request fra klienten");
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log("Feil ved oppkobling");
+      res.json({ error: "feil ved oppkobling" });
+    } else {
+      console.log("Fikk databasekobling");
+      req.params.id = parseInt(req.params.id);
+      connection.query(
+          "delete from nyhetssaker where id=?",
+          [req.params.id],
+          err => {
+            connection.release();
+            if (err) {
+              console.log(err);
+              res.status(500);
+              res.json({ error: "Feil ved insert" });
+            } else {
+              console.log("Insert vellykket");
+              res.send("");
+            }
+          }
+      );
+    }
+  });
+});
+*/
 
 
 
