@@ -31,6 +31,13 @@ export class Create extends Component {
         articleService.createArticle(this.state)
             .then(data => console.log(data));
         console.log(this.state);
+        this.setState({
+            overskrift: "",
+            innhold: "",
+            kategori: "None",
+            bilde: "",
+            viktighet: 0
+        })
     }
 
     onChange = (event) => {

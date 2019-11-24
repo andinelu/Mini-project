@@ -54,7 +54,7 @@ export class Comment {
 }
 class CommentService {
   getComments(nyhetssak_id: number) {
-    return axios.get<Comment[]>("/nyhetssaker/" + nyhetssak_id + "/kommentar").then(response => response.data);
+    return axios.get<Comment[]>("/kommentar/" + nyhetssak_id).then(response => response.data);
   }
   getCommentsTest(nyhetssak_id: number) {
     return axios.get<Comment[]>("/kommentar/" + nyhetssak_id ).then(response => response.data);

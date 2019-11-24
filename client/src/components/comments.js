@@ -22,6 +22,7 @@ render() {
                                 </div>
                         </Column>
                     </Row>
+
                 ))}
             </div>
         </div>
@@ -31,10 +32,13 @@ render() {
 mounted() {
     console.log(this.props.id);
     commentService
-        .getCommentsTest(this.props.id)
+        .getComments(this.props.id)
         .then(comments => (this.comments = comments))
         .catch((error: Error) => Alert.danger(error.message));
 }
+
+
+
 }
 
 
@@ -47,7 +51,7 @@ export class CreateComment extends Component{
         this.state = {
             nyhetssak_id: this.props.id,
             brukernavn: "",
-            innhold: "",
+            innhold: ""
         }
     }
 
@@ -57,6 +61,7 @@ export class CreateComment extends Component{
                 <div className="m-5">
                     <h3>Legg til en kommentar</h3>
                     <CommentEditor values={this.state} onSubmit={this.onSubmit} onChange={this.onChange} />
+                    <CommentList id={this.props.id}/>
                 </div>
             </div>
         );
@@ -67,6 +72,11 @@ export class CreateComment extends Component{
         commentService.createComment(this.state, this.props.id)
             .then(data => console.log(data));
         console.log(this.state);
+        this.setState({
+            brukernavn: "",
+            innhold: ""
+        })
+        window.location.reload();
     }
 
     onChange = (event) => {

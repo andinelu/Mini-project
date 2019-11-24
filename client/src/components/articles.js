@@ -92,11 +92,11 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
                     </div>
                 </Row>
                 <Row>
+                    <hr/>
                     <p>________________________________________________________________________________________________________________________</p>
                 </Row>
                 <Row>
                     <CreateComment id={this.props.match.params.id}/>
-                    <CommentList id={this.props.match.params.id}/>
                 </Row>
             </div>
 

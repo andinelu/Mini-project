@@ -50,7 +50,7 @@ class Home extends Component {
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
-    <Router>
+    <HashRouter>
       <div>
         <Alert />
         <Menu />
@@ -62,6 +62,6 @@ if (root)
           <Route path="/:kategori" component={ArticleList} />
           </Switch>
       </div>
-    </Router>,
+    </HashRouter>,
     root
   );

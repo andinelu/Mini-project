@@ -61,10 +61,10 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                         <Form.Control defaultValue={this.article.kategori} onChange={(event) => {
                             if (this.article) this.article.kategori = event.target.value;
                         }}  name="kategori" as="select">
-                            <option value="nyheter">Nyheter</option>
-                            <option value="sport">Sport</option>
-                            <option value="kultur">Kultur</option>
-                            <option value="teknologi">Teknologi</option>
+                            <option value="Nyheter">Nyheter</option>
+                            <option value="Sport">Sport</option>
+                            <option value="Kultur">Kultur</option>
+                            <option value="Teknologi">Teknologi</option>
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>

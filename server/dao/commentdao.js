@@ -1,9 +1,9 @@
 const Dao = require("./dao.js");
 
 module.exports = class CommentDao extends Dao {
-    getAll(id, callback) {
+    getAll(nyhetssak_id, callback) {
         super.query("select brukernavn, innhold,  date_format(registrert, '%Y-%m-%d %k:%i') registrert from kommentar where nyhetssak_id=? order by registrert desc",
-            [id], callback);
+            [nyhetssak_id], callback);
     }
 
     createOne(json, callback) {
