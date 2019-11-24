@@ -8,20 +8,21 @@ module.exports = class PersonDao extends Dao {
     }
 
 
-    getLatest(callback) {
-        super.query("select id, overskrift, registrert_tidspunkt from article order by registrert_tidspunkt desc limit 6", [], callback);
+    getNewsFeed(callback) {
+        super.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker order by registrert_tidspunkt desc limit 6",
+            [], callback);
     }
 
     getCategory(category, page, callback){
-        super.query("select id, overskrift, bilde from nyhetssaker where kategori=? order by registrert_tidspunkt desc limit ?, 10", [category, page], callback);
+        super.query("select id, overskrift, bilde from nyhetssaker where kategori=? order by registrert_tidspunkt desc limit ?, 10",
+            [category, page], callback);
     }
 
     getOne(id, callback) {
         super.query(
-            "select id, overskrift, bilde, innhold from nyhetssaker where id=?",
-            [id],
-            callback
-        );
+            "select *, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?",
+            id,
+            callback);
     }
 
     createOne(json, callback) {

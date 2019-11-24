@@ -38,16 +38,6 @@ export class EditList extends Component {
 
 
 export class EditDetails extends Component<{ match: { params: { id: number } } }> {
-    constructor(props){
-        super(props);
-        this.state = {
-            overskrift: "",
-            innhold: "",
-            kategori: "None",
-            bilde: "",
-            viktighet: 0 //"checked"
-        }
-    }
 
     article = null;
     render() {
@@ -79,7 +69,7 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Viktighet</Form.Label>
-                        <Form.Control defaultValue={this.props.values.viktighet} onChange={(event) => {
+                        <Form.Control defaultValue={this.article.viktighet} onChange={(event) => {
                             if (this.article) this.article.viktighet = event.target.value;
                         }}  name="viktighet" as="select">
                             <option value="1">Viktig</option>

@@ -53,13 +53,13 @@ export class NewsFeed extends Component {
         return (
                 <Marquee>
                     Siste nytt!
-                {this.articles.map(article => (
-                    <ul key={article.id}>
-                            <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
-                                    {article.overskrift}, {article.registrert_tidspunkt}
-                            </NavLink>
-                    </ul>
-                ))}
+                    {this.articles.map(article => (
+                        <ul key={article.id}>
+                                <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
+                                        {article.overskrift}, {article.registrert_tidspunkt}
+                                </NavLink>
+                        </ul>
+                    ))}
                 </Marquee>
         );
     }
@@ -104,6 +104,7 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
     }
 
     mounted() {
+        console.log(this.article);
         articleService
             .getArticle(this.props.match.params.id)
             .then(article => (this.article = article))
