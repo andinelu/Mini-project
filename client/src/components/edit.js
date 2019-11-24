@@ -62,27 +62,41 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                     </Button>
                     <Form.Group>
                         <Form.Label>Tittel</Form.Label>
-                        <Form.Control defaultValue={this.article.overskrift} onChange={this.onChange} name="overskrift" type="text" placeholder="Enter title..." />
+                        <Form.Control defaultValue={this.article.overskrift} onChange={(event) => {
+                            if (this.article) this.article.overskrift = event.target.value;
+                        }} name="overskrift" type="text" placeholder="Enter title..." />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Kategori</Form.Label>
-                        <Form.Control defaultValue={this.article.kategori} onChange={this.onChange}  name="kategori" as="select">
-                            <option>Nyheter</option>
-                            <option>Sport</option>
-                            <option>Kultur</option>
-                            <option>Teknologi</option>
+                        <Form.Control defaultValue={this.article.kategori} onChange={(event) => {
+                            if (this.article) this.article.kategori = event.target.value;
+                        }}  name="kategori" as="select">
+                            <option value="nyheter">Nyheter</option>
+                            <option value="sport">Sport</option>
+                            <option value="kultur">Kultur</option>
+                            <option value="teknologi">Teknologi</option>
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Check name="viktig" defaultValue={this.article.viktighet} onChange={this.onChange}  type="checkbox" label="Viktig" />
+                        <Form.Label>Viktighet</Form.Label>
+                        <Form.Control defaultValue={this.props.values.viktighet} onChange={(event) => {
+                            if (this.article) this.article.viktighet = event.target.value;
+                        }}  name="viktighet" as="select">
+                            <option value="1">Viktig</option>
+                            <option value="0">Uviktig</option>
+                        </Form.Control>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Bilde-url</Form.Label>
-                        <Form.Control defaultValue={this.article.bilde} onChange={this.onChange} name="bilde" type="text" placeholder="Enter url..." />
+                        <Form.Control defaultValue={this.article.bilde} onChange={(event) => {
+                            if (this.article) this.article.bilde = event.target.value;
+                        }} name="bilde" type="text" placeholder="Enter url..." />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Innhold</Form.Label>
-                        <Form.Control defaultValue={this.article.innhold} onChange={this.onChange}  name="innhold" as="textarea" rows="4" />
+                        <Form.Control defaultValue={this.article.innhold} onChange={(event) => {
+                            if (this.article) this.article.innhold = event.target.value;
+                        }}  name="innhold" as="textarea" rows="4" />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Submit
@@ -104,10 +118,10 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
     }
 
     onSubmit = (event) => {
-        console.log(this.state);
+        console.log(this.article);
         console.log("Endring blir utført");
         event.preventDefault();
-        articleService.editArticle(this.state)
+        articleService.editArticle(this.article)
             .then(data => console.log(data));
     }
 
@@ -125,7 +139,7 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
     }
 
     updateState(){
-        console.log("Kommer hit");
+        console.log(this.article);
         this.setState({
             overskrift: this.article.overskrift,
             innhold: this.article.innhold,

@@ -60,7 +60,10 @@ export class Editor extends Component {
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Check name="viktig" value={this.props.values.viktighet} onChange={this.props.onChange}  type="checkbox" label="Viktig" />
+                        <Form.Control required value={this.props.values.viktighet} onChange={this.props.onChange}  name="viktighet" as="select">
+                            <option value={1}>Viktig</option>
+                            <option value={0}>Uviktig</option>
+                        </Form.Control>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Bilde-url</Form.Label>

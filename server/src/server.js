@@ -75,7 +75,7 @@ app.get("/live", (req, res) => {
 }); */
 
 app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
-  pool.query('select overskrift, bilde, innhold, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?', [req.params.id], (error, results: Article[]) => {
+  pool.query('select *, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?', [req.params.id], (error, results: Article[]) => {
     if (error) {
       console.error(error);
       return res.status(500);
@@ -106,8 +106,26 @@ app.get("/edit/:id", (req: express$Request, res: express$Response) => {
   });
 });
 
+
+app.put('/endre', (req: { body: Article }, res: express$Response) => {
+  pool.query(
+      'update Article set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?',
+      [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.body.id],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500);
+        }
+        if (results.affectedRows == 0) return res.sendStatus(404); // No row updated
+
+        res.sendStatus(200);
+      }
+  );
+});
+
+/*
 app.put('/endre', (req: express$Request, res: express$Response) => {
-  pool.query('update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?', [req.body], (error, results) => {
+  pool.query('update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?', [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.params.id], (error, results) => {
     if (error) {
       console.error(error);
       return res.status(500);
@@ -116,7 +134,7 @@ app.put('/endre', (req: express$Request, res: express$Response) => {
 
     res.send(results[0]);
   });
-});
+}); */
 /*
 app.put("/endre", (req, res) => {
   console.log("/articles/:id: received GET request from client");

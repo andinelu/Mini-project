@@ -28,7 +28,7 @@ class Menu extends Component {
         <NavBar.Link to="/Kultur">Kultur</NavBar.Link>
         <NavBar.Link to="/Teknologi">Teknologi</NavBar.Link>
         <NavBar.Link to="/opprett">Opprett ny artikkel</NavBar.Link>
-         <NavBar.Link to="/edit">Endre/slett artikkel</NavBar.Link>
+        <NavBar.Link to="/edit">Endre/slett artikkel</NavBar.Link>
       </NavBar>
     );
   }
