@@ -53,7 +53,7 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                         <Form.Label>Tittel</Form.Label>
                         <Form.Control defaultValue={this.article.overskrift} onChange={(event) => {
                             if (this.article) this.article.overskrift = event.target.value;
-                        }} name="overskrift" type="text" placeholder="Enter title..." />
+                        }} name="overskrift" type="text" maxLength="50" />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Kategori</Form.Label>
@@ -79,7 +79,7 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                         <Form.Label>Bilde-url</Form.Label>
                         <Form.Control defaultValue={this.article.bilde} onChange={(event) => {
                             if (this.article) this.article.bilde = event.target.value;
-                        }} name="bilde" type="text" placeholder="Enter url..." />
+                        }} name="bilde" type="text"/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Innhold</Form.Label>

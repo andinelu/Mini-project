@@ -33,8 +33,6 @@ header {
 }
 
 
-
-
 /* Footer element at the bottom of each page */
 
 footer {
@@ -131,7 +129,6 @@ img {
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     alignment: center;
-    /*grid-row-start: 1;*/
     grid-template-columns: repeat(auto-fill, 450px);
     margin-bottom: 50px;
 }
@@ -187,7 +184,6 @@ img {
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     alignment: center;
-    /*grid-row-start: 1;*/
     grid-template-columns: repeat(auto-fill, 800px);
     margin-bottom: 50px;
 }
@@ -211,7 +207,6 @@ img {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
-   /* background-color: #F8F8F8; */
     min-height: 50px;
     max-height: 50px;
 }
@@ -234,7 +229,6 @@ img {
     to {
         transform: translateX(-230%);
     }
-
 }
 
 /*horizontal line*/
