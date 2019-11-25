@@ -1,3 +1,5 @@
+// @flow
+
 import {Component} from "react-simplified";
 import {Comment, commentService} from "../services";
 import {Button, Form} from "react-bootstrap";
@@ -5,44 +7,36 @@ import * as React from "react";
 import {Alert, Column, Row} from "../widgets";
 
 export class CommentList extends Component{
-comments: Comment[] = [];
+    comments: Comment[] = [];
 
-render() {
-    return (
-        <div className="container">
-            <h3> Kommentarer </h3>
-            <div className="comment-container">
-                {this.comments.map(comment => (
-                    <Row key={comment.kommentar_id}>
-                        <Column width={6}>
-                            <h5 className="block-name">Brukernavn: {comment.brukernavn},</h5>
-                            <h6> {comment.registrert}</h6>
-                            <div className="comment-block">
-                                    {comment.innhold}
-                                </div>
-                        </Column>
-                    </Row>
-
-                ))}
+    render() {
+        return (
+            <div className="container">
+                <h3> Kommentarer </h3>
+                <div className="comment-container">
+                    {this.comments.map(comment => (
+                        <Row key={comment.kommentar_id}>
+                            <Column width={6}>
+                                <h5 className="block-name">Brukernavn: {comment.brukernavn},</h5>
+                                <h6> {comment.registrert}</h6>
+                                <div className="comment-block">
+                                        {comment.innhold}
+                                    </div>
+                            </Column>
+                        </Row>
+                    ))}
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
+
+    mounted() {
+        commentService
+            .getComments(this.props.id)
+            .then(comments => (this.comments = comments))
+            .catch((error: Error) => Alert.danger(error.message));
+    }
 }
-
-mounted() {
-    console.log(this.props.id);
-    commentService
-        .getComments(this.props.id)
-        .then(comments => (this.comments = comments))
-        .catch((error: Error) => Alert.danger(error.message));
-}
-
-
-
-}
-
-
-/*_____________________________________________________ */
 
 
 export class CreateComment extends Component{
@@ -70,8 +64,8 @@ export class CreateComment extends Component{
     onSubmit = (event) => {
         event.preventDefault();
         commentService.createComment(this.state, this.props.id)
-            .then(data => console.log(data));
-        console.log(this.state);
+            .then(data => console.log(data))
+            .catch((error: Error) => Alert.danger(error.message));
         this.setState({
             brukernavn: "",
             innhold: ""
@@ -93,11 +87,11 @@ export class CommentEditor extends Component {
                 <Form className="mt-5" onSubmit={this.props.onSubmit}>
                     <Form.Group>
                         <Form.Label>Brukernavn</Form.Label>
-                        <Form.Control required value={this.props.values.brukernavn} onChange={this.props.onChange} name="brukernavn" type="text" placeholder="Enter username..." />
+                        <Form.Control required value={this.props.values.brukernavn} onChange={this.props.onChange} name="brukernavn" type="text" maxLength="100" />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Innhold</Form.Label>
-                        <Form.Control required value={this.props.values.innhold} onChange={this.props.onChange}  name="innhold" as="textarea" rows="4" />
+                        <Form.Label>Innhold (maks 310 tegn)</Form.Label>
+                        <Form.Control required value={this.props.values.innhold} onChange={this.props.onChange}  name="innhold" as="textarea" rows="4" maxLength="310" />
                     </Form.Group>
 
                     <Button variant="primary" type="submit">

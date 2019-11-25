@@ -1,8 +1,6 @@
 // @flow
 import axios from 'axios';
 
-
-
 export class Article {
   id: number;
   overskrift: string;
@@ -13,14 +11,10 @@ export class Article {
   viktighet: boolean;
 }
 
-
 class ArticleService {
   getArticles(kategori: string, page: number) {
     return axios.get<Article[]>('/' + kategori + '?page=' + page).then(response => response.data);
   }
-  /*getArticles(kategori: string) {
-    return axios.get<Article[]>('/' + kategori).then(response => response.data);
-  } */
   getNewsFeed(){
     return axios.get<Article[]>('/live').then(response => response.data);
   }

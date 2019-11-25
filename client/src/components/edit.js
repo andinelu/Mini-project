@@ -1,3 +1,5 @@
+// @flow
+
 import {Component} from "react-simplified";
 import {Article, articleService} from "../services";
 import * as React from "react";
@@ -105,7 +107,6 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
     }
 
     onSubmit = (event) => {
-        console.log(this.article);
         event.preventDefault();
         articleService.editArticle(this.article)
             .then(Alert.success("Artikkelen ble endret"))

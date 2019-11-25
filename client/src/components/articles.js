@@ -1,10 +1,11 @@
+// @flow
+
 import {Component} from "react-simplified";
 import {Article, articleService} from "../services";
 import {Alert, Column, Row} from "../widgets";
 import {NavLink} from "react-router-dom";
 import Marquee from "react-smooth-marquee";
 import {CreateComment} from "./comments";
-import {PageHandler} from "./pagehandler"
 import * as React from "react";
 
 export class ArticleList extends Component {
@@ -16,7 +17,6 @@ export class ArticleList extends Component {
             <div>
                 <NewsFeed/>
                 <div className="container">
-
                     <h3> {this.props.match.params.kategori} </h3>
                     <div className="content-container">
                         {this.articles.map(article => (
@@ -25,14 +25,12 @@ export class ArticleList extends Component {
                                     <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
                                         <div className="content-block">
                                             <h3 className="block-name">{article.overskrift} </h3>
-                                            <div className="img-news">
-                                                <img className="content-block-image" src={article.bilde} alt="Bilde" /> </div>
+                                            <div className="img-news"><img className="content-block-image" src={article.bilde} alt="Bilde" /> </div>
                                         </div>
                                     </NavLink>
                                 </Column>
                             </Row>
                         ))}
-
                     </div>
                 </div>
             </div>
@@ -81,7 +79,6 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
 
         return (
             <div className="container">
-
                 <Row>
                     <div className="article-title"><h1>{this.article.overskrift}</h1></div>
                 </Row>
@@ -105,12 +102,10 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
                     <CreateComment id={this.props.match.params.id}/>
                 </Row>
             </div>
-
         );
     }
 
     mounted() {
-        console.log(this.article);
         articleService
             .getArticle(this.props.match.params.id)
             .then(article => (this.article = article))

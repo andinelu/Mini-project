@@ -18,15 +18,6 @@ var pool = mysql.createPool({
   debug: false
 });
 
-class Article {
-  id: number;
-  overskrift: string;
-  innhold: string;
-  kategori: string;
-  bilde: string;
-  registrert_tidspunkt: string;
-  viktighet: boolean;
-}
 
 const public_path = path.join(__dirname, '/../../client/public');
 
@@ -57,10 +48,11 @@ app.get("/live", (req: express$Request, res: express$Response) => {
 });
 
 app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
+  console.log("/nyhetssaker/:id: received GET request from client");
   pool.query(
       'select *, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?',
       [req.params.id],
-      (error, results: Article[]) => {
+      (error, results) => {
     if (error) {
       console.error(error);
       return res.status(500);
@@ -72,7 +64,7 @@ app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
 });
 
 app.post("/opprett", (req: express$Request, res: express$Response) => {
-  console.log("/articles: received POST request from client");
+  console.log("/opprett: received POST request from client");
   articleDao.createOne(req.body, (status, data) => {
     res.status(status);
     res.json(data);
@@ -80,7 +72,7 @@ app.post("/opprett", (req: express$Request, res: express$Response) => {
 });
 
 app.delete("/delete/:id", (req: express$Request, res: express$Response) => {
-  console.log("/delete received DELETE request from client");
+  console.log("/delete/id: received DELETE request from client");
   articleDao.deleteOne(req.params.id, (status, data) => {
     res.status(status);
     res.json(data);
@@ -108,7 +100,7 @@ app.get("/edit/:id", (req: express$Request, res: express$Response) => {
   });
 });
 
-app.put('/oppdater', (req: { body: Article }, res: express$Response) => {
+app.put('/oppdater', (req: express$Request, res: express$Response) => {
   pool.query(
       'update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?',
       [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.body.id],
@@ -123,19 +115,17 @@ app.put('/oppdater', (req: { body: Article }, res: express$Response) => {
       });
 });
 
-
 app.get("/kommentar/:id", (req: express$Request, res: express$Response) => {
-  pool.query("select brukernavn, innhold,  date_format(registrert, '%Y-%m-%d %k:%i') registrert from kommentar where nyhetssak_id=? order by registrert desc", [req.params.id],(error, results) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    res.send(results);
+  console.log("/nyhetssaker/:id/kommentar: received GET request from client");
+  req.query.page = parseInt(req.query.page);
+  commentDao.getAll(req.params.id, (status, data) => {
+    res.status(status);
+    res.json(data);
   });
 });
 
 app.post("/kommentar/:id", (req, res) => {
-  console.log("/nyhetssaker/:id/kommentar: received POST request from client");
+  console.log("/kommentar/id: received POST request from client");
   commentDao.createOne(req.body, (status, data) => {
     res.status(status);
     res.json(data);
@@ -159,18 +149,16 @@ app.get('/nyhetssaker/:id', (req, res) => {
     res.status(status);
     res.json(data);
   });
-}); */
-
-/*
-app.get("/kommentar/:id", (req: express$Request, res: express$Response) => {
-  console.log("/nyhetssaker/:id/kommentar: received GET request from client");
-    req.query.page = parseInt(req.query.page);
-  commentDao.getAll(req.params.id, (status, data) => {
+});
+app.put("/oppdater", (req, res) => {
+  console.log("/oppdater: received PUT request from client");
+  articleDao.updateOne(req.body, (status, data) => {
     res.status(status);
     res.json(data);
   });
-});
-*/
+});*/
+
+
 
 // The listen promise can be used to wait for the web server to start (for instance in your tests)
 export let listen = new Promise<void>((resolve, reject) => {

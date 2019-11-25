@@ -1,8 +1,10 @@
+// @flow
+
 import {Component} from "react-simplified";
 import {articleService} from "../services";
 import {Button, Form} from "react-bootstrap";
 import * as React from "react";
-import {Alert, Column} from "../widgets";
+import {Alert} from "../widgets";
 
 export class Create extends Component {
     constructor(props){
@@ -10,7 +12,7 @@ export class Create extends Component {
         this.state = {
             overskrift: "",
             innhold: "",
-            kategori: "None",
+            kategori: "Nyheter",
             bilde: "",
             viktighet: 0 //"checked"
         }
@@ -33,11 +35,10 @@ export class Create extends Component {
             .then(Alert.success("Artikkelen ble lagt til"))
             .then(data => console.log(data))
             .catch((error: Error) => Alert.danger(error.message));
-        console.log(this.state);
         this.setState({
             overskrift: "",
             innhold: "",
-            kategori: "None",
+            kategori: "Nyheter",
             bilde: "",
             viktighet: 0
         })
@@ -57,15 +58,15 @@ export class Editor extends Component {
                 <Form className="mt-5" onSubmit={this.props.onSubmit}>
                     <Form.Group >
                         <Form.Label>Tittel</Form.Label>
-                        <Form.Control className="form-control" required value={this.props.values.overskrift} onChange={this.props.onChange} name="overskrift" type="text" placeholder="Enter title..." />
+                        <Form.Control className="form-control" required value={this.props.values.overskrift} onChange={this.props.onChange} name="overskrift" type="text" maxLength="50" />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Kategori</Form.Label>
-                        <Form.Control required value={this.props.values.kategori} onChange={this.props.onChange}  name="kategori" as="select">
-                            <option>Nyheter</option>
-                            <option>Sport</option>
-                            <option>Kultur</option>
-                            <option>Teknologi</option>
+                        <Form.Control required defaultValue={this.props.values.kategori} onChange={this.props.onChange}  name="kategori" as="select">
+                            <option value="Nyheter">Nyheter</option>
+                            <option value="Sport">Sport</option>
+                            <option value="Kultur">Kultur</option>
+                            <option value="Teknologi">Teknologi</option>
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
@@ -77,7 +78,7 @@ export class Editor extends Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Bilde-url</Form.Label>
-                        <Form.Control className="form-control" required value={this.props.values.bilde} onChange={this.props.onChange} name="bilde" type="text" placeholder="Enter url..." />
+                        <Form.Control className="form-control" required value={this.props.values.bilde} onChange={this.props.onChange} name="bilde" type="text" />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Innhold</Form.Label>

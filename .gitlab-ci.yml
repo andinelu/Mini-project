@@ -1,8 +1,7 @@
 variables:
-  MYSQL_DATABASE: School
-  MYSQL_USER: root
-  MYSQL_ROOT_PASSWORD: ''
-  MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  MYSQL_DATABASE: andinel
+  MYSQL_ROOT_PASSWORD: 4BA61FfC
+
 
 test:
   image: node:latest
@@ -12,3 +11,15 @@ test:
     - npm install -g flow-bin
     - cd server && npm install && npm test && flow check src
     - cd ../client && npm install && npm test && flow check src
+
+# Install node libraries
+before_script:
+  - npm install
+# Run JEST tests
+run_tests:
+stage: test
+script:
+  - npm test
+artifacts:
+paths:
+  - coverage/

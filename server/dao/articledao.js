@@ -1,6 +1,6 @@
 const Dao = require("./dao.js");
 
-module.exports = class PersonDao extends Dao {
+module.exports = class ArticleDao extends Dao {
     getAll(callback){
         super.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker order by registrert_tidspunkt desc",
             [], callback);
@@ -8,7 +8,7 @@ module.exports = class PersonDao extends Dao {
 
     getImportant(page, callback) {
         var val = [page, 20*(page -1)];
-        super.query("select id, overskrift, bilde from nyhetssaker where viktighet=true order by registrert_tidspunkt desc limit ?, 10 ",
+        super.query("select id, overskrift, bilde from nyhetssaker where viktighet=true order by registrert_tidspunkt desc",
             val, callback);
     }
 
@@ -18,7 +18,7 @@ module.exports = class PersonDao extends Dao {
     }
 
     getCategory(category, page, callback){
-        super.query("select id, overskrift, bilde from nyhetssaker where kategori=? order by registrert_tidspunkt desc limit ?, 10",
+        super.query("select id, overskrift, bilde from nyhetssaker where kategori=? order by registrert_tidspunkt desc",
             [category, page], callback);
     }
 

@@ -9,10 +9,7 @@ import {ArticleList, ArticleDetails} from "./components/articles";
 import {Create} from "./components/create";
 import {EditList, EditDetails} from "./components/edit";
 import './style.css';
-import { createHashHistory } from 'history';
 
-
-const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
 class Menu extends Component {
   render() {
@@ -34,7 +31,7 @@ class Logo extends Component{
     render() {
         return (
             <div className="header">
-                <img className="logo" src="https://www.sjoliv.no/wp-content/uploads/2019/02/sjo_hytte-e1551283902288.jpg" alt="Logo" />
+                <img className="logo" src="https://res.cloudinary.com/deguy-no/image/upload/f_auto,q_auto/v1555496000/b_bs-10046_additional_1" alt="Logo" />
             </div>
         );
     }
