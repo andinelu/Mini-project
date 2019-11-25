@@ -83,7 +83,7 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
                         <Form.Label>Innhold</Form.Label>
                         <Form.Control defaultValue={this.article.innhold} onChange={(event) => {
                             if (this.article) this.article.innhold = event.target.value;
-                        }}  name="innhold" as="textarea" rows="4" />
+                        }}  name="innhold" as="textarea" rows="10" />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Submit
@@ -106,10 +106,11 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
 
     onSubmit = (event) => {
         console.log(this.article);
-        console.log("Endring blir utført");
         event.preventDefault();
         articleService.editArticle(this.article)
-            .then(data => console.log(data));
+            .then(Alert.success("Artikkelen ble endret"))
+            .then(data => console.log(data))
+            .catch((error: Error) => Alert.danger(error.message));
     }
 
     onChange = (event) => {
@@ -119,11 +120,11 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
     }
 
     onDelete = (event) => {
-        console.log("Kommer til delete");
-        console.log(this.props.match.params.id);
         event.preventDefault();
         articleService.deleteArticle(this.props.match.params.id)
-            .then(data => console.log(data));
+            .then(Alert.success("Artikkelen ble slettet. Gå tilbake for å fortsette"))
+            .then(data => console.log(data))
+            .catch((error: Error) => Alert.danger(error.message));
     }
 
 }

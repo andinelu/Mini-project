@@ -1,6 +1,4 @@
 // @flow
-/* eslint eqeqeq: "off" */
-
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
@@ -80,7 +78,7 @@ export class NavBar extends Component<{ brand?: React.Node, children?: React.Nod
 
   render() {
     return (
-      <nav className="navbar navbar-expand-sm bg-light navbar-light">
+      <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
         {
           <NavLink className="navbar-brand" activeClassName="active" exact to="/">
             {this.props.brand}
@@ -130,24 +128,4 @@ export class Column extends Component<{ width?: number, right?: boolean, childre
       </div>
     );
   }
-}
-
-class ButtonDanger extends Component<{
-  onClick: () => mixed, // Any function
-  children?: React.Node
-}> {
-  render() {
-    return (
-      <button type="button" className="btn btn-danger" onClick={this.props.onClick}>
-        {this.props.children}
-      </button>
-    );
-  }
-}
-
-/**
- * Renders a button using Bootstrap classes
- */
-export class Button {
-  static Danger = ButtonDanger;
 }

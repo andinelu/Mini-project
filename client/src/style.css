@@ -1,9 +1,13 @@
 
 /* Background properties */
+
 body {
    background-color: #f5f5f5;
     background-size: 100%;
 }
+
+/* heading properties */
+
 h1 {
     color: black;
 }
@@ -14,98 +18,34 @@ h3 {
     color: black;
 }
 
-/* Capitalizes the first letter */
-.capitalize{
-    text-transform: capitalize;
-}
-
-
-/* Menu bar */
-.navbar-default {
-    background-color: #005EB3;
-    border-color: #005EB3;
-    margin-bottom: 0;
-}
-
-.navbar-default li a{
-    color: white !important;
-}
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    background-color: #1C9E75;
-}
-
-.navbar-default .navbar-nav .active {
-    background-color: #1C9E75;
-}
-
 
 /* Set header background to white */
+
+header {
+    background-color: white;
+    width: 100%;
+
+}
 .logo {
     background-color: white;
-    padding: 10px;
-}
-
-/*Resize logo */
-.resize {
-    width: 500px;
+    width: 400px;
     height: auto;
 }
+
+
+
 
 /* Footer element at the bottom of each page */
 
 footer {
     width: 100%;
     height: fit-content;
-    background-color: #005EB3;
+    background-color: rgb(52,58,64);
     padding-top: 30px;
     padding-bottom: 30px;
     padding-left: 200px;
     padding-right: 200px;
-    color: #97CADB;
-}
-
-footer .office-block {
-    width: 128px;
-    margin-right: 32px;
-    margin-bottom: 32px;
-    float: left;
-}
-
-footer a {
-    float: right;
-    margin-left: 16px;
-}
-
-footer .input-group {
-    width: 300px;
-}
-
-footer #newsletterMsg {
-    display: inline-block;
-}
-
-
-.form-control{
-    width: auto;
-}
-
-.clear {
-    clear: both;
-}
-
-.right {
-    float: right;
-}
-
-.left {
-    float: left;
-}
-
-.picture {
-    max-width: 256px;
-    max-height: 144px;
-    border-radius: 5%;
+    color: rgb(138,157,160);
 }
 
 img {
@@ -113,13 +53,6 @@ img {
     height: 250px;
     width: 512px;
 }
-
-img-article {
-    border: none;
-    height: 288px;
-    width: 512px;
-}
-
 
 .article-title{
     margin-left: auto;
@@ -135,70 +68,28 @@ img-article {
     height: 50%;
 }
 
-.img-right{
-    display:block;
-    margin-left:auto
-}
-
-.img-left{
-    display:block;
-    margin-right:auto
-}
-
 
 /* Primary button */
 
+.btn-primary{
+    background-color: rgb(52,58,64);
+}
+
 .btn-primary:hover{
-    background-color: #1C9E75;
+    background-color: rgb(138,157,160);
 }
 
 .btn-primary:focus{
-    background-color: #1C9E75;
+    background-color: rgb(138,157,160);
 }
 
 .btn-primary:active{
-    background-color: #0088FF;
+    background-color: rgb(52,58,64);
 }
 
-/* Page navigator at the top of each page
-.page-navigator * {
-    color: lightslategrey;
-} */
-
-.scrollabletextbox{
-    height:300px;
-    width:800px;
-    overflow: auto;
-    resize:none;
-    border-radius: 5px;
-    margin-left: 15px;
-}
-
-.post_commentbox {
-    display: inline;
-    float: left;
-    width: 100%;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    margin-top: 20px;
-    padding: 5px 0px
-}
-/*
-.post_commentbox a, .post_commentbox span {
-    color: #798992;
-    font-size: 11px;
-    margin-right: 5px
-}
-
-.post_commentbox a > i, .post_commentbox span > i {
-    margin-right: 5px
-}
-*/
-.action-link {
-    font-size: 16px;
-}
 
 /* Images and image containers */
+
 .news-image {
     width: 60%;
     alignment: center;
@@ -208,14 +99,8 @@ img-article {
 }
 
 
-.picture-container {
-    width: 100%;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(auto-fill, 256px);
-}
-
 /* Container holds all the page elements */
+
 .container {
     max-width: 1100px;
     height: 100%;
@@ -225,6 +110,17 @@ img-article {
     padding: 30px;
     background-color: white;
 }
+
+
+/* Container which holds picture elements*/
+
+.picture-container {
+    width: 100%;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, 256px);
+}
+
 
 /* Display of various content in a grid-based layout */
 
@@ -241,7 +137,9 @@ img-article {
 }
 
 .content-description {
-    padding: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 20px;
 }
 
 .content-block {
@@ -252,25 +150,6 @@ img-article {
     padding: 50px;
 }
 
-.comment-block {
-    border-radius: 10px;
-    width: 600px;
-    height: 100px;
-    background-color: ghostwhite;
-    padding: 10px;
-}
-
-.comment-container {
-    justify-content: center;
-    display: grid;
-    width: 100%;
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
-    alignment: center;
-    /*grid-row-start: 1;*/
-    grid-template-columns: repeat(auto-fill, 800px);
-    margin-bottom: 50px;
-}
 .content-name {
     text-align: center;
 }
@@ -298,48 +177,35 @@ img-article {
     vertical-align: bottom;
 }
 
-/*Comment form */
-#respond {
-    margin-top: 40px;
-}
-
-#respond input[type='text'],
-#respond input[type='email'],
-#respond textarea {
-    margin-bottom: 10px;
-    display: block;
+.block-name{
     width: 100%;
-
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -o-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
-
-    line-height: 1.4em;
+    height: 15%
 }
+
+/* comment container */
+
+.comment-container {
+    justify-content: center;
+    display: grid;
+    width: 100%;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    alignment: center;
+    /*grid-row-start: 1;*/
+    grid-template-columns: repeat(auto-fill, 800px);
+    margin-bottom: 50px;
+}
+
+.comment-block {
+    border-radius: 10px;
+    width: 600px;
+    height: 100px;
+    background-color: ghostwhite;
+    padding: 10px;
+}
+
 
 /*Horizontal text scroll */
-/* Make it a marquee */
-.marquee{
-    display: block;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    background-color: #F8F8F8;
-    min-height: 75px;
-    max-height: 100px;
-}
-
-.marquee span{
-    display: inline-block;
-    padding-left: 100%;
-    -webkit-animation:scroll 10s infinite linear;
-    margin-top: 20px;
-    background-color: #F8F8F8;
-}
 
 .Marquee{
     display: block;
@@ -354,14 +220,13 @@ img-article {
 .MarqueeContent{
     display: flex;
     padding-left: 100%;
-    -webkit-animation:scroll 25s infinite linear;
+    -webkit-animation:scroll 30s infinite linear;
     margin-top: 10px;
-    margin-bottom: 10px;
-   /* background-color: #F8F8F8; */
+    margin-bottom: 15px;
     width: 30px;
     height: 50px;
+    font-size: 20px;
 }
-
 
 @-webkit-keyframes scroll{
     from {
@@ -373,15 +238,10 @@ img-article {
 
 }
 
-.scroll-block {
-    border-radius: 10px;
-    width: 50px;
-    height: 100px;
-    background-color: ghostwhite;
-    padding: 10px;
-}
+/*horizontal line*/
 
 hr {
+    margin-top: 70px;
     border: 0;
     clear:both;
     display:block;

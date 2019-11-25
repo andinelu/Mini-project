@@ -15,26 +15,26 @@ export class ArticleList extends Component {
         return (
             <div>
                 <NewsFeed/>
-            <div className="container">
+                <div className="container">
 
-                <h3> {this.props.match.params.kategori} </h3>
-                <div className="content-container">
-                    {this.articles.map(article => (
-                        <Row key={article.id}>
-                            <Column width={1}>
-                                <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
-                                    <div className="content-block">
-                                        <h3 className="block-name">{article.overskrift} </h3>
-                                        <div className="img-news">
-                                            <img className="content-block-image" src={article.bilde} alt="Bilde" /> </div>
-                                    </div>
-                                </NavLink>
-                            </Column>
-                        </Row>
-                    ))}
+                    <h3> {this.props.match.params.kategori} </h3>
+                    <div className="content-container">
+                        {this.articles.map(article => (
+                            <Row key={article.id}>
+                                <Column width={1}>
+                                    <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
+                                        <div className="content-block">
+                                            <h3 className="block-name">{article.overskrift} </h3>
+                                            <div className="img-news">
+                                                <img className="content-block-image" src={article.bilde} alt="Bilde" /> </div>
+                                        </div>
+                                    </NavLink>
+                                </Column>
+                            </Row>
+                        ))}
 
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }
@@ -57,9 +57,9 @@ export class NewsFeed extends Component {
                     Siste nytt!
                     {this.articles.map(article => (
                         <ul key={article.id}>
-                                <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
-                                        {article.overskrift}, {article.registrert_tidspunkt}
-                                </NavLink>
+                            <NavLink activeStyle={{ color: 'black' }} exact to={'/nyhetssaker/' + article.id}>
+                                    {article.overskrift}, {article.registrert_tidspunkt}
+                            </NavLink>
                         </ul>
                     ))}
                 </Marquee>
@@ -87,6 +87,11 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
                 </Row>
                 <Row>
                     <img src={this.article.bilde} className="img-center"/>
+                </Row>
+                <Row>
+                    <div className="content-description">
+                        <Column>Registrert: {this.article.registrert_tidspunkt}</Column>
+                    </div>
                 </Row>
                 <Row>
                     <div className="content-description">
