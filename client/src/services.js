@@ -28,17 +28,16 @@ class ArticleService {
     return axios.get<Article>('/nyhetssaker/' + id).then(response => response.data);
   }
   createArticle(article: Article){
-    //article.viktighet = (article.viktighet === 'on'); //(article.viktighet === 'on' ? true : false);
     return axios.post<Article, void>('/opprett', article).then(response => response.data);
   }
   editArticles(){
     return axios.get<Article[]>('/edit').then(response => response.data);
   }
   editArticle(article: Article){
-    return axios.put<Article, void>('/endre', article).then(response => response.data);
+    return axios.put<Article, void>('/oppdater', article).then(response => response.data);
   }
   deleteArticle(id: number) {
-    return axios.get<Article>('/delete').then(response => response.data);
+    return axios.delete<Article>('/delete/' + id).then(response => response.data);
   }
 
 }
@@ -56,16 +55,9 @@ class CommentService {
   getComments(nyhetssak_id: number) {
     return axios.get<Comment[]>("/kommentar/" + nyhetssak_id).then(response => response.data);
   }
-  getCommentsTest(nyhetssak_id: number) {
-    return axios.get<Comment[]>("/kommentar/" + nyhetssak_id ).then(response => response.data);
-  }
-  createCommentTest(comment: Comment){
-    return axios.post<Comment, void>("/kommentar", comment).then(response => response.data);
-  }
   createComment(comment: Comment, nyhetssak_id: number){
     return axios.post<Comment, void>("/kommentar/" + nyhetssak_id, comment).then(response => response.data);
   }
-
 }
 
 export let commentService = new CommentService();

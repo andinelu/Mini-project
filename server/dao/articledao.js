@@ -22,26 +22,10 @@ module.exports = class PersonDao extends Dao {
             [category, page], callback);
     }
 
-    getOne(id, callback) {
-        super.query(
-            "select *, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?",
-            [id],
-            callback);
-    }
-
     createOne(json, callback) {
         var val = [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet];
         super.query(
             "insert into nyhetssaker (overskrift, innhold, bilde, kategori, viktighet) values(?,?,?,?,?)",
-            val,
-            callback
-        );
-    }
-
-    updateOne(json, callback) {
-        var val = [json.id, json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet];
-        super.query(
-            "update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?",
             val,
             callback
         );
@@ -54,4 +38,21 @@ module.exports = class PersonDao extends Dao {
             callback
         );
     }
+
+    getOne(id, callback) {
+        super.query(
+            "select *, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?",
+            [id],
+            callback);
+    }
+
+    updateOne(json, callback) {
+        var val = [json.id, json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet];
+        super.query(
+            "update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?",
+            val,
+            callback
+        );
+    }
+
 };

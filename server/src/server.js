@@ -28,14 +28,6 @@ class Article {
   viktighet: boolean;
 }
 
-class Comment {
-  kommentar_id: number;
-  nyhetssak_id: number;
-  brukernavn: string;
-  innhold: string;
-  registrert: string;
-}
-
 const public_path = path.join(__dirname, '/../../client/public');
 
 let app = express();
@@ -56,10 +48,104 @@ app.get("/forside", (req: express$Request, res: express$Response) => {
   });
 });
 
-
 app.get("/live", (req: express$Request, res: express$Response) => {
   console.log("/live: received GET request from client");
   articleDao.getNewsFeed((status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
+  pool.query(
+      'select *, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?',
+      [req.params.id],
+      (error, results: Article[]) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    if (results.length == 0) return res.sendStatus(404); // No row found
+
+    res.send(results[0]);
+  });
+});
+
+app.post("/opprett", (req: express$Request, res: express$Response) => {
+  console.log("/articles: received POST request from client");
+  articleDao.createOne(req.body, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+app.delete("/delete/:id", (req: express$Request, res: express$Response) => {
+  console.log("/delete received DELETE request from client");
+  articleDao.deleteOne(req.params.id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+app.get("/edit", (req: express$Request, res: express$Response) => {
+  console.log("/edit: received GET request from client");
+  articleDao.getAll((status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+app.get("/edit/:id", (req: express$Request, res: express$Response) => {
+  pool.query(
+      "select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?",
+    [req.params.id],
+      (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    res.send(results);
+  });
+});
+
+app.put('/oppdater', (req: { body: Article }, res: express$Response) => {
+  pool.query(
+      'update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?',
+      [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.body.id],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500);
+        }
+        if (results.affectedRows == 0) return res.sendStatus(404); // No row updated
+
+        res.sendStatus(200);
+      });
+});
+
+
+app.get("/kommentar/:id", (req: express$Request, res: express$Response) => {
+  pool.query("select brukernavn, innhold,  date_format(registrert, '%Y-%m-%d %k:%i') registrert from kommentar where nyhetssak_id=? order by registrert desc", [req.params.id],(error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500);
+    }
+    res.send(results);
+  });
+});
+
+app.post("/kommentar/:id", (req, res) => {
+  console.log("/nyhetssaker/:id/kommentar: received POST request from client");
+  commentDao.createOne(req.body, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+app.get("/:kategori", (req: express$Request, res: express$Response) => {
+  console.log("/:kategori: received GET request from client");
+  req.query.page = parseInt(req.query.page);
+  articleDao.getCategory(req.params.kategori, req.query.page, (status, data) => {
     res.status(status);
     res.json(data);
   });
@@ -75,182 +161,13 @@ app.get('/nyhetssaker/:id', (req, res) => {
   });
 }); */
 
-
-app.get('/nyhetssaker/:id', (req: express$Request, res: express$Response) => {
-  pool.query('select *, date_format(registrert_tidspunkt, \'%Y-%m-%d %k:%i\')registrert_tidspunkt from nyhetssaker where id=?', [req.params.id], (error, results: Article[]) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    if (results.length == 0) return res.sendStatus(404); // No row found
-
-    res.send(results[0]);
-  });
-})
-
-app.get("/edit", (req: express$Request, res: express$Response) => {
-  console.log("/edit: received GET request from client");
-  articleDao.getAll((status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-app.get("/edit/:id", (req: express$Request, res: express$Response) => {
-  pool.query("select id, overskrift, date_format(registrert_tidspunkt, '%Y-%m-%d %k:%i')registrert_tidspunkt from nyhetssaker where id=?", [req.params.id], (error, results) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    res.send(results);
-  });
-});
-
 /*
-app.put('/endre', (req: { body: Article }, res: express$Response) => {
-  pool.query(
-      'update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?',
-      [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.body.id],
-      (error, results) => {
-        if (error) {
-          console.error(error);
-          return res.status(500);
-        }
-        if (results.affectedRows == 0) return res.sendStatus(404); // No row updated
-
-        res.sendStatus(200);
-      }
-  );
-}); */
-
-
-app.put("/endre", (req: { body: Article }, res: express$Response) => {
-  console.log("/endre: received PUT request from client");
-  articleDao.updateOne(req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-
-app.get("/:kategori", (req, res) => {
-  console.log("/:kategori: received GET request from client");
-  req.query.page = parseInt(req.query.page);
-  articleDao.getCategory(req.params.kategori, req.query.page, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-/*
-app.put('/endre', (req: express$Request, res: express$Response) => {
-  pool.query('update nyhetssaker set overskrift=?, innhold=?, bilde=?, kategori=?, viktighet=? where id=?', [req.body.overskrift, req.body.innhold, req.body.bilde, req.body.kategori, req.body.viktighet, req.params.id], (error, results) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    if (results.length == 0) return res.sendStatus(404); // No row found
-
-    res.send(results[0]);
-  });
-}); */
-
-
-app.post("/opprett", (req, res) => {
-  console.log("/articles: received POST request from client");
-  articleDao.createOne(req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-/*
-app.delete("/delete", (req, res) => {
-  console.log("/articles/:id: received DELETE request from client");
-  req.params.id = parseInt(req.params.id);
-  articledao.deleteOne(req.params.id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-/*
-app.get("/nyhetssaker/:id/kommentar", (req, res) => {
-  console.log("/nyhetssaker/:id/kommentar: received GET request from client");
-  req.query.page = parseInt(req.query.page);
-  commentDao.getAll(req.params.id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-}); */
-
-/*
-app.get('/nyhetssaker/:id/kommentar', (req: express$Request, res: express$Response) => {
-  pool.query('select brukernavn, innhold, registrert from kommentar where nyhetssak_id=? ', [req.params.id], (error, results: Comment[]) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    if (results.length == 0) return res.sendStatus(404); // No row found
-
-    res.send(results[0]);
-  });
-}); */
-/*
-app.get("/kommentar/id", (req: express$Request, res: express$Response) => {
-  console.log("/nyhetssaker/:id/kommentar: received GET request from client");
-  commentDao.getAll(req.params.id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-*/
-
 app.get("/kommentar/:id", (req: express$Request, res: express$Response) => {
-  pool.query("select brukernavn, innhold,  date_format(registrert, '%Y-%m-%d %k:%i') registrert from kommentar where nyhetssak_id=? order by registrert desc", [req.params.id],(error, results) => {
-    if (error) {
-      console.error(error);
-      return res.status(500);
-    }
-    res.send(results);
-  });
-});
-
-
-app.post("/kommentar/:id", (req, res) => {
-  console.log("/nyhetssaker/:id/kommentar: received POST request from client");
-  commentDao.createOne(req.body, (status, data) => {
+  console.log("/nyhetssaker/:id/kommentar: received GET request from client");
+    req.query.page = parseInt(req.query.page);
+  commentDao.getAll(req.params.id, (status, data) => {
     res.status(status);
     res.json(data);
-  });
-   });
-
-
-/*
-app.delete("/delete", (req, res) => {
-  console.log("Fikk POST-request fra klienten");
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.log("Feil ved oppkobling");
-      res.json({ error: "feil ved oppkobling" });
-    } else {
-      console.log("Fikk databasekobling");
-      req.params.id = parseInt(req.params.id);
-      connection.query(
-          "delete from nyhetssaker where id=?",
-          [req.params.id],
-          err => {
-            connection.release();
-            if (err) {
-              console.log(err);
-              res.status(500);
-              res.json({ error: "Feil ved insert" });
-            } else {
-              console.log("Insert vellykket");
-              res.send("");
-            }
-          }
-      );
-    }
   });
 });
 */

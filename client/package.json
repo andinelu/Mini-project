@@ -18,6 +18,8 @@
     "react": "^16.11.0",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-css-marquee": "0.0.4",
+    "react-js-pagination": "^3.0.2",
+    "react-native-hr": "^1.1.4",
     "react-router-dom": "^5.1.2",
     "react-simplified": "^1.6.1",
     "react-smooth-marquee": "^1.0.0"

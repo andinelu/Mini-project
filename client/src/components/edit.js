@@ -47,9 +47,6 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
             <div className="container">
                 <h2>Endre eller slett artikkel</h2>
                 <Form className="mt-10" onSubmit={this.onSubmit}>
-                    <Button variant="primary" type="button" onClick={this.updateState}>
-                        UpdateState
-                    </Button>
                     <Form.Group>
                         <Form.Label>Tittel</Form.Label>
                         <Form.Control defaultValue={this.article.overskrift} onChange={(event) => {
@@ -122,21 +119,11 @@ export class EditDetails extends Component<{ match: { params: { id: number } } }
     }
 
     onDelete = (event) => {
+        console.log("Kommer til delete");
+        console.log(this.props.match.params.id);
         event.preventDefault();
         articleService.deleteArticle(this.props.match.params.id)
             .then(data => console.log(data));
-        console.log(this.state);
     }
 
-    updateState(){
-        console.log(this.article);
-        this.setState({
-            overskrift: this.article.overskrift,
-            innhold: this.article.innhold,
-            kategori: this.article.kategori,
-            bilde: this.article.bilde,
-            viktighet: 1
-        })
-
-    }
 }

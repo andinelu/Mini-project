@@ -3,7 +3,8 @@ import {Article, articleService} from "../services";
 import {Alert, Column, Row} from "../widgets";
 import {NavLink} from "react-router-dom";
 import Marquee from "react-smooth-marquee";
-import {CommentList, CreateComment} from "./comments";
+import {CreateComment} from "./comments";
+import {PageHandler} from "./pagehandler"
 import * as React from "react";
 
 export class ArticleList extends Component {
@@ -31,6 +32,7 @@ export class ArticleList extends Component {
                             </Column>
                         </Row>
                     ))}
+
                 </div>
             </div>
             </div>
@@ -93,7 +95,6 @@ export class ArticleDetails extends Component<{ match: { params: { id: number } 
                 </Row>
                 <Row>
                     <hr/>
-                    <p>________________________________________________________________________________________________________________________</p>
                 </Row>
                 <Row>
                     <CreateComment id={this.props.match.params.id}/>
